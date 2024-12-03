@@ -6,12 +6,13 @@ import java.util.ArrayList;
 
 public class Perfil {
     //Atributos
-    int id;
-    String nome;
-    Date data;
-    String fone;
-    String bio ;
-    ArrayList<Perfil> amigos;
+    private int id;
+    private String nome;
+    private Date data;
+    private String fone;
+    private int seguidores;
+    private String bio ;
+    private ArrayList<Perfil> amigos;
     
     //Construtor
     public Perfil() {
@@ -64,6 +65,14 @@ public class Perfil {
 
     public void setAmigos(ArrayList<Perfil> amigos) {
         this.amigos = amigos;
+    }
+
+    public int getSeguidores() {
+        return seguidores;
+    }
+
+    public void setSeguidores(int seguidores) {
+        this.seguidores = seguidores;
     }
     
 }
