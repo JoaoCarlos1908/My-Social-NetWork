@@ -1,14 +1,14 @@
 
 package Classes;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 public class Perfil {
     //Atributos
     private int id;
+    private int idUser;
     private String nome;
-    private Date data;
+    private int idade;
     private String fone;
     private int seguidores;
     private String bio ;
@@ -35,12 +35,12 @@ public class Perfil {
         this.nome = nome;
     }
 
-    public Date getData() {
-        return data;
+    public int getIdade() {
+        return idade;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setIdade(int idade) {
+        this.idade = idade;
     }
 
     public String getFone() {
@@ -73,6 +73,14 @@ public class Perfil {
 
     public void setSeguidores(int seguidores) {
         this.seguidores = seguidores;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
     
 }

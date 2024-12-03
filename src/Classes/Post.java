@@ -7,9 +7,9 @@ import java.util.ArrayList;
 public class Post {
     //Atributos
     private int id;
-    private Perfil autor;
-    private int visualisacoes;
-    private int Curtidas;
+    private int idAutor;
+    private int view;
+    private int like;
     private ArrayList<String> comentarios;
     private String descricaoo;
     private URL midia;
@@ -33,28 +33,28 @@ public class Post {
         this.id = id;
     }
 
-    public Perfil getAutor() {
-        return autor;
+    public int getidAutor() {
+        return idAutor;
     }
 
-    public void setAutor(Perfil autor) {
-        this.autor = autor;
+    public void setAutor(int idAutor) {
+        this.idAutor = idAutor;
     }
 
-    public int getVisualisacoes() {
-        return visualisacoes;
+    public int getView() {
+        return view;
     }
 
-    public void setVisualisacoes(int visualisacoes) {
-        this.visualisacoes = visualisacoes;
+    public void setView(int visualisacoes) {
+        this.view = visualisacoes;
     }
 
-    public int getCurtidas() {
-        return Curtidas;
+    public int getLike() {
+        return like;
     }
 
-    public void setCurtidas(int Curtidas) {
-        this.Curtidas = Curtidas;
+    public void setLike(int like) {
+        this.like = like;
     }
 
     public ArrayList<String> getComentarios() {

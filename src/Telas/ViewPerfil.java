@@ -62,6 +62,7 @@ public class ViewPerfil extends javax.swing.JPanel {
         txtSeguidores.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         txtSeguidores.setText("Seguidores");
 
+        txtBio.setBackground(new java.awt.Color(204, 204, 204));
         txtBio.setColumns(20);
         txtBio.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         txtBio.setRows(5);
@@ -108,7 +109,7 @@ public class ViewPerfil extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtNome)
                         .addGap(18, 18, 18)
                         .addComponent(txtIdade)
@@ -121,8 +122,9 @@ public class ViewPerfil extends javax.swing.JPanel {
                             .addComponent(btnDeixarDeSeguir)
                             .addComponent(btnSeguir)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-public class UsuarioDAO {
+public class SocialDAO {
  
     private Connection con;
     private PreparedStatement stmt;

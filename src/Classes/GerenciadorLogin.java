@@ -22,7 +22,7 @@ public class GerenciadorLogin {
     }
     
     public void Acessar(){
-        UsuarioDAO dao = new UsuarioDAO();
+        SocialDAO dao = new SocialDAO();
         if(dao.search(login.getUser(), "usuario")){
             if(dao.verifyPass(login.getUser(), login.getPass())){
                 JOptionPane.showMessageDialog(null, "Acesso liberado!");
@@ -57,7 +57,7 @@ public class GerenciadorLogin {
             JOptionPane.showMessageDialog(null, "Prencha todos os Dados!");
         }else{
             if(dados.getPass().equals(dados.getPassC())){
-                UsuarioDAO dao = new UsuarioDAO();
+                SocialDAO dao = new SocialDAO();
                 Usuario user = new Usuario();
                 user.setNome(dados.getNome());
                 user.setIdade(Integer.parseInt(dados.getIdade()));
