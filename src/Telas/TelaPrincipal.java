@@ -7,9 +7,12 @@ import javax.swing.JScrollPane;
 public class TelaPrincipal extends javax.swing.JFrame {
 
     ViewPerfil perfil;
+    int idUser;
     
-    public TelaPrincipal() {
+    public TelaPrincipal(int idUser) {
         initComponents();
+        
+        this.idUser = idUser;
         
         JPrincipal.setLayout(new BoxLayout(JPrincipal, BoxLayout.Y_AXIS));  // Organiza os painéis em coluna
         
@@ -19,13 +22,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         
         this.setLocationRelativeTo(null);
          
-        //perfil = new ViewPerfil();
-        int x = 0;
-        while (x < 5){ViewPost post = new ViewPost();
-        JPrincipal.add(post);
-        JPrincipal.repaint();
-        JPrincipal.revalidate(); x++;}
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -33,10 +29,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jplMenu = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnFeed = new javax.swing.JButton();
+        btnPerfil = new javax.swing.JButton();
+        btnPost = new javax.swing.JButton();
+        btnEditePerfil = new javax.swing.JButton();
         ScrollPane = new javax.swing.JScrollPane();
         JPrincipal = new javax.swing.JPanel();
 
@@ -44,13 +40,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jplMenu.setBackground(new java.awt.Color(204, 204, 204));
 
-        jButton1.setText("Feed");
+        btnFeed.setText("Feed");
 
-        jButton2.setText("Perfil");
+        btnPerfil.setText("Perfil");
+        btnPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPerfilActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("+ Post");
+        btnPost.setText("+ Post");
+        btnPost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPostActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Edit Perfil");
+        btnEditePerfil.setText("Edit Perfil");
 
         javax.swing.GroupLayout jplMenuLayout = new javax.swing.GroupLayout(jplMenu);
         jplMenu.setLayout(jplMenuLayout);
@@ -59,23 +65,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jplMenuLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jplMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                    .addComponent(btnFeed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                    .addComponent(btnPost, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                    .addComponent(btnEditePerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jplMenuLayout.setVerticalGroup(
             jplMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jplMenuLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnFeed)
                 .addGap(68, 68, 68)
-                .addComponent(jButton2)
+                .addComponent(btnPerfil)
                 .addGap(64, 64, 64)
-                .addComponent(jButton3)
+                .addComponent(btnPost)
                 .addGap(68, 68, 68)
-                .addComponent(jButton4)
+                .addComponent(btnEditePerfil)
                 .addGap(253, 253, 253))
         );
 
@@ -110,37 +116,25 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void btnPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerfilActionPerformed
+        ViewPerfil perfil = new ViewPerfil(idUser);
+        JPrincipal.removeAll();
+        JPrincipal.add(perfil);
+        JPrincipal.repaint();
+        JPrincipal.revalidate();
+    }//GEN-LAST:event_btnPerfilActionPerformed
 
-        /* Create and display the form */
+    private void btnPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostActionPerformed
+        CreatePost post = new CreatePost();
+        JPrincipal.add(post);
+        JPrincipal.repaint();
+        JPrincipal.revalidate();
+    }//GEN-LAST:event_btnPostActionPerformed
+
+    public static void main(String args[]) {
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaPrincipal().setVisible(true);
             }
         });
     }
@@ -148,10 +142,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPrincipal;
     private javax.swing.JScrollPane ScrollPane;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnEditePerfil;
+    private javax.swing.JButton btnFeed;
+    private javax.swing.JButton btnPerfil;
+    private javax.swing.JButton btnPost;
     private javax.swing.JPanel jplMenu;
     // End of variables declaration//GEN-END:variables
 }

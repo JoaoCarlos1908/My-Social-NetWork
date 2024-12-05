@@ -1,18 +1,38 @@
 
 package Telas;
 
+import Classes.GerenciadorSocial;
+import Classes.Usuario;
+
 
 public class ViewPerfil extends javax.swing.JPanel {
 
-    public ViewPerfil() {
+    int idUser;
+    
+    public ViewPerfil(int idUser) {
         initComponents();
         
+        this.idUser = idUser;
+        this.ShowView();
         txtBio.setLineWrap(true);// Habilita a quebra de linha automática
         txtBio.setWrapStyleWord(true);// Faz a quebra entre palavras
         txtBio.setCaretPosition(0);
         txtBio.setEditable(false);
     }
 
+    public void ShowView(){
+        GerenciadorSocial gerenciar = new GerenciadorSocial();
+        Usuario user = gerenciar.getUserDao(idUser);
+        this.txtNome.setText(user.getNome());
+        this.txtFone.setText("Fone: " + user.getFone());
+        this.txtIdade.setText("Idade: " + Integer.toString(user.getIdade()));
+        this.txtBio.setText(user.getBio());
+        this.txtSeguidores.setText("Seguidores: " + Integer.toString(user.getSeguidores()));
+        
+        this.repaint();
+        this.revalidate();
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -27,6 +47,12 @@ public class ViewPerfil extends javax.swing.JPanel {
         txtBio = new javax.swing.JTextArea();
         btnSeguir = new javax.swing.JButton();
         btnDeixarDeSeguir = new javax.swing.JButton();
+
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -135,6 +161,10 @@ public class ViewPerfil extends javax.swing.JPanel {
     private void btnDeixarDeSeguirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeixarDeSeguirActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeixarDeSeguirActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        
+    }//GEN-LAST:event_formComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

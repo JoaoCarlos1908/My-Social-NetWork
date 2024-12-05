@@ -4,6 +4,7 @@ package Classes;
 import Telas.DadosCadastro;
 import Telas.TelaDeCadastro;
 import Telas.TelaDeLogin;
+import Telas.TelaPrincipal;
 import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JOptionPane;
@@ -23,9 +24,13 @@ public class GerenciadorLogin {
     
     public void Acessar(){
         SocialDAO dao = new SocialDAO();
-        if(dao.search(login.getUser(), "usuario")){
+        if(dao.verifyUser(login.getUser(), "usuario")){
             if(dao.verifyPass(login.getUser(), login.getPass())){
-                JOptionPane.showMessageDialog(null, "Acesso liberado!");
+            Usuario user = new Usuario();
+            user = dao.searchUser(login.getUser(), login.getPass());
+            TelaPrincipal principal = new TelaPrincipal(user.getId());
+                principal.setVisible(true);
+                login.dispose();
             }else{
                 JOptionPane.showMessageDialog(null, "Usuario ou senha incorreto!");
             }
@@ -52,7 +57,7 @@ public class GerenciadorLogin {
         return false; // Retorna false se nenhum campo estiver vazio
     }
     
-    public void salvar(){
+    public void salvarUser(){
         if(this.txtNull(dados)){
             JOptionPane.showMessageDialog(null, "Prencha todos os Dados!");
         }else{
@@ -61,11 +66,11 @@ public class GerenciadorLogin {
                 Usuario user = new Usuario();
                 user.setNome(dados.getNome());
                 user.setIdade(Integer.parseInt(dados.getIdade()));
-                user.setEmail(dados.getEmail());
+                user.setTell(dados.getTell());
                 user.setUser(dados.getUser());
                 user.setSenha(dados.getPass());
                 
-                dao.create(user);
+                dao.createUser(user);
                 
                 JOptionPane.showMessageDialog(null, "Cadastro Realizado!");
                 TelaDeLogin login = new TelaDeLogin();

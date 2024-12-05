@@ -1,6 +1,8 @@
 
 package Classes;
 
+import java.util.ArrayList;
+
 public class Usuario {
     //Atributos
     private int id;
@@ -8,7 +10,10 @@ public class Usuario {
     private String senha;
     private String nome;
     private int idade;
-    private String email;
+    private String fone;
+    private int seguidores;
+    private String bio ;
+    private ArrayList<Usuario> amigos;
     
     //Construtor
 
@@ -18,7 +23,9 @@ public class Usuario {
         this.senha = "";
         this.nome = "";
         this.idade = 0;
-        this.email = "";
+        this.fone = "";
+        this.seguidores = 0;
+        this.bio = "";
     }
     
     //Metodos
@@ -62,12 +69,44 @@ public class Usuario {
         this.idade = idade;
     }
 
-    public String getEmail() {
-        return email;
+    public String getTell() {
+        return fone;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setTell(String tell) {
+        this.fone = tell;
+    }
+
+    public String getFone() {
+        return fone;
+    }
+
+    public void setFone(String fone) {
+        this.fone = fone;
+    }
+
+    public int getSeguidores() {
+        return seguidores;
+    }
+
+    public void setSeguidores(int seguidores) {
+        this.seguidores = seguidores;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public ArrayList<Usuario> getAmigos() {
+        return amigos;
+    }
+
+    public void setAmigos(ArrayList<Usuario> amigos) {
+        this.amigos = amigos;
     }
     
 }

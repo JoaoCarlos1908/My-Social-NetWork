@@ -14,13 +14,16 @@ public class SocialDAO {
     private ResultSet rs;
     
     //Metodos
-    public void create(Usuario user){//create
+    public void createUser(Usuario user){//create
         try {
             con = ConnectionFactory.getConnection();
-            stmt = con.prepareStatement("INSERT INTO user(usuario, senha)VALUES(?,?)");
+            stmt = con.prepareStatement("INSERT INTO user(usuario, senha, nome, idade, tell)VALUES(?,?,?,?,?)");
         
             stmt.setString(1, user.getUser());
             stmt.setString(2, user.getSenha());
+            stmt.setString(3, user.getNome());
+            stmt.setInt(4, user.getIdade());
+            stmt.setString(5, user.getTell());
             
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
@@ -32,7 +35,7 @@ public class SocialDAO {
         }
     }
     
-    public ArrayList<Usuario> read() {
+    public ArrayList<Usuario> readUser() {
         String sql = "SELECT * FROM user";
         ArrayList<Usuario> usuarios = new ArrayList<>();
         
@@ -46,6 +49,9 @@ public class SocialDAO {
                 user.setId(rs.getInt("id"));
                 user.setUser(rs.getString("usuario"));
                 user.setSenha(rs.getString("senha"));
+                user.setNome(rs.getString("nome"));
+                user.setIdade(rs.getInt("idade"));
+                user.setTell(rs.getString("tell"));
             
                 usuarios.add(user); // Adiciona a tarefa à lista*/
             }
@@ -58,7 +64,7 @@ public class SocialDAO {
         return usuarios;
     }
     
-    public void update(Usuario user, Boolean estado) {
+    public void updateUser(Usuario user, Boolean estado) {
         try {
             // Obter a conexão (substitua pelo seu método de conexão)
             con = ConnectionFactory.getConnection();
@@ -78,7 +84,7 @@ public class SocialDAO {
             
             } else {
                 // Chama o método responsável por adicionar uma nova tarefa
-                this.create(user);
+                this.createUser(user);
             }
         } catch (SQLException ex) {
             // Exibe mensagem de erro
@@ -89,7 +95,7 @@ public class SocialDAO {
         }
     }   
     
-     public void delete(Usuario user) {
+     public void deleteUser(Usuario user) {
          try {
             // Obter a conexão (substitua pelo seu método de conexão)
             con = ConnectionFactory.getConnection();
@@ -115,10 +121,10 @@ public class SocialDAO {
             // Fechar a conexão e a declaração
             ConnectionFactory.closerConnection(con, stmt);
         }
-        this.read();
+        this.readUser();
     }
 
-    public boolean search(String texto, String nomeColuna) {
+    public boolean verifyUser(String texto, String nomeColuna) {
         String sql = "SELECT EXISTS (SELECT 1 FROM user WHERE " + nomeColuna + " = ? COLLATE utf8mb4_bin) AS texto_presente";
         con = ConnectionFactory.getConnection();
         boolean existe = false;
@@ -159,4 +165,75 @@ public class SocialDAO {
         return isAuthenticated;
     }
 
+    public void createPost(Post post){
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement("INSERT INTO post(idAutor, descricao, data)VALUES(?,?,?)");
+        
+            stmt.setInt(1, post.getidAutor());
+            stmt.setString(2, post.getDescricao());
+            stmt.setString(3, post.getData());
+            
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Post salvo com sucesso!");
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar post: "+ex);
+        }finally{
+            ConnectionFactory.closerConnection(con, stmt);
+        }
+    }
+    
+    public Usuario searchUser(String username, String password) {
+        String sql = "SELECT * FROM user WHERE usuario = ? AND senha = ?";
+        Usuario user = new Usuario();
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, username); // Substitui o primeiro '?' pelo valor de username
+            stmt.setString(2, password); // Substitui o segundo '?' pelo valor de password
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                user.setId(rs.getInt("id"));
+                user.setUser(rs.getString("usuario"));
+                user.setSenha(rs.getString("senha"));
+                user.setNome(rs.getString("nome"));
+                user.setIdade(rs.getInt("idade"));
+                user.setTell(rs.getString("tell"));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar usuário: " + ex.getMessage());
+        } finally {
+            ConnectionFactory.closerConnection(con, stmt, rs);
+        }
+
+        return user;
+    }
+    
+    public Usuario searchUser(int idUser) {
+        String sql = "SELECT * FROM user WHERE id = ?";
+        Usuario user = new Usuario();
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idUser); // Substitui o primeiro '?' pelo valor de username
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                user.setId(rs.getInt("id"));
+                user.setUser(rs.getString("usuario"));
+                user.setSenha(rs.getString("senha"));
+                user.setNome(rs.getString("nome"));
+                user.setIdade(rs.getInt("idade"));
+                user.setTell(rs.getString("tell"));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar usuário: " + ex.getMessage());
+        } finally {
+            ConnectionFactory.closerConnection(con, stmt, rs);
+        }
+
+        return user;
+    }
 }

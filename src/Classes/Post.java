@@ -2,6 +2,7 @@
 package Classes;
 
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Post {
@@ -12,10 +13,17 @@ public class Post {
     private int like;
     private ArrayList<String> comentarios;
     private String descricaoo;
+    private String data;
     private URL midia;
     
     //Construtor
     public Post() {
+        this.id = 0;
+        this.idAutor = 0;
+        this.view = 0;
+        this.like = 0;
+        this.descricaoo = "";
+        this.data = "00/00/00";
     }
     
     //Metodos
@@ -65,7 +73,7 @@ public class Post {
         this.comentarios = comentarios;
     }
 
-    public String getDescricaoo() {
+    public String getDescricao() {
         return descricaoo;
     }
 
@@ -79,6 +87,14 @@ public class Post {
 
     public void setMidia(URL midia) {
         this.midia = midia;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
 }
