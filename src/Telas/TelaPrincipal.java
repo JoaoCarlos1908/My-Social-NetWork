@@ -1,13 +1,14 @@
 
 package Telas;
 
+import Classes.GerenciadorSocial;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 
 public class TelaPrincipal extends javax.swing.JFrame {
 
     ViewPerfil perfil;
-    int idUser;
+    private int idUser;
     
     public TelaPrincipal(int idUser) {
         initComponents();
@@ -33,6 +34,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         btnPerfil = new javax.swing.JButton();
         btnPost = new javax.swing.JButton();
         btnEditePerfil = new javax.swing.JButton();
+        btnAmigos = new javax.swing.JButton();
         ScrollPane = new javax.swing.JScrollPane();
         JPrincipal = new javax.swing.JPanel();
 
@@ -41,6 +43,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jplMenu.setBackground(new java.awt.Color(204, 204, 204));
 
         btnFeed.setText("Feed");
+        btnFeed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFeedActionPerformed(evt);
+            }
+        });
 
         btnPerfil.setText("Perfil");
         btnPerfil.addActionListener(new java.awt.event.ActionListener() {
@@ -58,6 +65,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         btnEditePerfil.setText("Edit Perfil");
 
+        btnAmigos.setText("Amigos");
+
         javax.swing.GroupLayout jplMenuLayout = new javax.swing.GroupLayout(jplMenu);
         jplMenu.setLayout(jplMenuLayout);
         jplMenuLayout.setHorizontalGroup(
@@ -68,7 +77,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(btnFeed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
                     .addComponent(btnPost, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                    .addComponent(btnEditePerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                    .addComponent(btnEditePerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                    .addComponent(btnAmigos, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jplMenuLayout.setVerticalGroup(
@@ -82,7 +92,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(btnPost)
                 .addGap(68, 68, 68)
                 .addComponent(btnEditePerfil)
-                .addGap(253, 253, 253))
+                .addGap(52, 52, 52)
+                .addComponent(btnAmigos)
+                .addGap(178, 178, 178))
         );
 
         javax.swing.GroupLayout JPrincipalLayout = new javax.swing.GroupLayout(JPrincipal);
@@ -117,20 +129,34 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerfilActionPerformed
+        GerenciadorSocial gerenciar = new GerenciadorSocial();
         ViewPerfil perfil = new ViewPerfil(idUser);
         JPrincipal.removeAll();
         JPrincipal.add(perfil);
+        gerenciar.MeusPosts(this.JPrincipal, idUser);
         JPrincipal.repaint();
         JPrincipal.revalidate();
     }//GEN-LAST:event_btnPerfilActionPerformed
 
     private void btnPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostActionPerformed
-        CreatePost post = new CreatePost();
+        JPrincipal.removeAll();
+        CreatePost post = new CreatePost(idUser, this.JPrincipal);
         JPrincipal.add(post);
         JPrincipal.repaint();
         JPrincipal.revalidate();
     }//GEN-LAST:event_btnPostActionPerformed
 
+    private void btnFeedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeedActionPerformed
+        JPrincipal.removeAll();
+        JPrincipal.repaint();
+        JPrincipal.revalidate();
+        //gerenciar.loadFead();
+    }//GEN-LAST:event_btnFeedActionPerformed
+
+    public int idUser(){
+        return idUser;
+    }
+    
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -142,6 +168,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPrincipal;
     private javax.swing.JScrollPane ScrollPane;
+    private javax.swing.JButton btnAmigos;
     private javax.swing.JButton btnEditePerfil;
     private javax.swing.JButton btnFeed;
     private javax.swing.JButton btnPerfil;

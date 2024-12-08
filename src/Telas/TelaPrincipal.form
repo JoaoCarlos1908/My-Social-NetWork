@@ -55,6 +55,7 @@
                       <Component id="btnPerfil" alignment="0" pref="80" max="32767" attributes="0"/>
                       <Component id="btnPost" alignment="0" pref="80" max="32767" attributes="0"/>
                       <Component id="btnEditePerfil" alignment="0" pref="80" max="32767" attributes="0"/>
+                      <Component id="btnAmigos" alignment="0" pref="80" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -71,7 +72,9 @@
                   <Component id="btnPost" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                   <Component id="btnEditePerfil" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="253" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                  <Component id="btnAmigos" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="178" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -81,6 +84,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Feed"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFeedActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnPerfil">
           <Properties>
@@ -101,6 +107,11 @@
         <Component class="javax.swing.JButton" name="btnEditePerfil">
           <Properties>
             <Property name="text" type="java.lang.String" value="Edit Perfil"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnAmigos">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Amigos"/>
           </Properties>
         </Component>
       </SubComponents>

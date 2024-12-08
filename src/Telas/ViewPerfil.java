@@ -88,7 +88,6 @@ public class ViewPerfil extends javax.swing.JPanel {
         txtSeguidores.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         txtSeguidores.setText("Seguidores");
 
-        txtBio.setBackground(new java.awt.Color(204, 204, 204));
         txtBio.setColumns(20);
         txtBio.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         txtBio.setRows(5);

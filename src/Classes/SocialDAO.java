@@ -1,5 +1,6 @@
 package Classes;
 
+import Telas.ViewPost;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -132,7 +133,7 @@ public class SocialDAO {
         try (PreparedStatement stmt = con.prepareStatement(sql)) {
             stmt.setString(1, texto); // Substitui o ? pelo texto exato que está sendo pesquisado
             try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     existe = rs.getBoolean("texto_presente"); // Pega o valor do alias da consulta
                 }
             }
@@ -152,7 +153,7 @@ public class SocialDAO {
             stmt.setString(1, username); // Define o parâmetro para o nome de usuário
 
             try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     // Obtemos a senha armazenada no banco de dados
                     String storedPassword = rs.getString("senha");
                     // Comparar a senha armazenada com a senha fornecida
@@ -184,6 +185,40 @@ public class SocialDAO {
         }
     }
     
+    public void updatePostLikes(ViewPost view) {
+        Post post = new Post();
+        post.setId(view.getIdPost());
+        post.setLike(Integer.parseInt(view.getLike()));
+        
+        String sql = "UPDATE post SET `like` = ? WHERE id = ?";
+
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+
+            // Define os novos valores para os campos a serem atualizados
+            stmt.setInt(1, post.getLike()); // Atualiza a quantidade de likes
+            stmt.setInt(2, post.getId()); // Usa o ID do post para localizar o registro
+
+            // Executa a atualização
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                //JOptionPane.showMessageDialog(null, "Post atualizado com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Nenhum post encontrado com o ID fornecido.");
+            }
+        } catch (SQLException ex) {
+            // Mostra uma mensagem ao usuário e registra o erro no console
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar post: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            // Garante o fechamento da conexão
+            ConnectionFactory.closerConnection(con, stmt);
+        }
+    }
+
+
+    
     public Usuario searchUser(String username, String password) {
         String sql = "SELECT * FROM user WHERE usuario = ? AND senha = ?";
         Usuario user = new Usuario();
@@ -194,7 +229,7 @@ public class SocialDAO {
             stmt.setString(2, password); // Substitui o segundo '?' pelo valor de password
             rs = stmt.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
                 user.setId(rs.getInt("id"));
                 user.setUser(rs.getString("usuario"));
                 user.setSenha(rs.getString("senha"));
@@ -220,13 +255,15 @@ public class SocialDAO {
             stmt.setInt(1, idUser); // Substitui o primeiro '?' pelo valor de username
             rs = stmt.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
                 user.setId(rs.getInt("id"));
                 user.setUser(rs.getString("usuario"));
                 user.setSenha(rs.getString("senha"));
                 user.setNome(rs.getString("nome"));
                 user.setIdade(rs.getInt("idade"));
                 user.setTell(rs.getString("tell"));
+                user.setBio(rs.getString("bio"));
+                user.setSeguidores(rs.getInt("seguidores"));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao buscar usuário: " + ex.getMessage());
@@ -236,4 +273,111 @@ public class SocialDAO {
 
         return user;
     }
+    
+    public ArrayList<ViewPost> MyPosts(int idUser) {
+        ArrayList<ViewPost> posts = new ArrayList<>();
+        Usuario user = this.searchUser(idUser); // Busca o usuário com base no ID
+        String sql = "SELECT * FROM post WHERE idAutor = ?";
+
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idUser); // Substitui o '?' pelo valor do ID do usuário
+            rs = stmt.executeQuery();
+
+            while (rs.next()) { // Itera sobre todos os resultados
+                ViewPost post = new ViewPost(idUser); // Cria um novo objeto para cada post
+                post.setName(Integer.toString(rs.getInt("id")));
+                post.setPerfil(user.getNome());
+                post.setData(rs.getString("data"));
+                post.setDesc(rs.getString("descricao"));
+                post.setView(Integer.toString(rs.getInt("view")));
+                post.setLike(Integer.toString(rs.getInt("like")));
+
+                posts.add(post); // Adiciona o post à lista
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar posts: " + ex.getMessage());
+        } finally {
+            ConnectionFactory.closerConnection(con, stmt, rs);
+        }
+
+        return posts;
+    }
+    
+    public boolean existsLike(int idPost, int idUser) {
+        boolean exists = false;
+        String sql = "SELECT 1 FROM likes WHERE idPost = ? AND idUser = ?";
+
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idPost);
+            stmt.setInt(2, idUser);
+
+            rs = stmt.executeQuery();
+
+            // Verifica se o ResultSet retornou algum resultado
+            if (rs.next()) {
+                exists = true;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao verificar like: " + ex.getMessage());
+        } finally {
+            ConnectionFactory.closerConnection(con, stmt, rs);
+        }
+        return exists;
+    }
+    
+    public void removeLike(int idPost, int idUser) {
+        String sql = "DELETE FROM likes WHERE idPost = ? AND idUser = ?";
+
+        try {
+            // Estabelece a conexão com o banco
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+
+            // Define os parâmetros
+            stmt.setInt(1, idPost);
+                stmt.setInt(2, idUser);
+
+            // Executa o comando DELETE
+            int rowsAffected = stmt.executeUpdate();
+        
+            if (rowsAffected > 0) {
+                System.out.println("Like removido com sucesso!");
+            } else {
+                System.out.println("Nenhum like encontrado para remover.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao remover like: " + ex.getMessage());
+        } finally {
+            // Fecha a conexão
+            ConnectionFactory.closerConnection(con, stmt);
+        }
+    }
+    
+    public void addLike(int idPost, int idUser) {
+        String sql = "INSERT INTO likes (idPost, idUser) VALUES (?, ?)";
+
+        try {
+            // Estabelece a conexão com o banco
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+
+            // Define os parâmetros
+            stmt.setInt(1, idPost);
+            stmt.setInt(2, idUser);
+
+            // Executa o comando INSERT
+            stmt.executeUpdate();
+            System.out.println("Like adicionado com sucesso!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao adicionar like: " + ex.getMessage());
+        } finally {
+            // Fecha a conexão
+            ConnectionFactory.closerConnection(con, stmt);
+        }
+    }
+
 }

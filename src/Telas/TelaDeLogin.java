@@ -2,6 +2,8 @@
 package Telas;
 
 import Classes.GerenciadorLogin;
+import java.awt.KeyboardFocusManager;
+import javax.swing.JOptionPane;
 
 public class TelaDeLogin extends javax.swing.JFrame {
 
@@ -35,6 +37,11 @@ public class TelaDeLogin extends javax.swing.JFrame {
         jLabel1.setText("Usuário");
 
         txtUser.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        txtUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUserKeyPressed(evt);
+            }
+        });
 
         btnCadastrar.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         btnCadastrar.setText("Cadastrar");
@@ -59,6 +66,16 @@ public class TelaDeLogin extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icon.png"))); // NOI18N
 
         txtPass.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        txtPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPassActionPerformed(evt);
+            }
+        });
+        txtPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPassKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout JPanelLoginLayout = new javax.swing.GroupLayout(JPanelLogin);
         JPanelLogin.setLayout(JPanelLoginLayout);
@@ -127,6 +144,24 @@ public class TelaDeLogin extends javax.swing.JFrame {
         cadastro = new TelaDeCadastro();
         cadastro.setVisible(true);
     }//GEN-LAST:event_btnCadastrarActionPerformed
+    // Variável para controlar o estado
+    
+    private void txtUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                txtPass.requestFocus(); // Move o foco para o próximo campo
+        }
+    }//GEN-LAST:event_txtUserKeyPressed
+
+    private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPassActionPerformed
+
+    private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                GerenciadorLogin gerenciar = new GerenciadorLogin(dados, cadastro, this);
+                gerenciar.Acessar();
+        }
+    }//GEN-LAST:event_txtPassKeyPressed
 
     public String getPass() {
         String senha = new String(txtPass.getPassword());

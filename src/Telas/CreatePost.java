@@ -2,22 +2,39 @@
 package Telas;
 
 import Classes.GerenciadorSocial;
+import Classes.Usuario;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class CreatePost extends javax.swing.JPanel {
 
-    public CreatePost() {
+    private int idUser;
+    private JPanel JPrincipal;
+    
+    public CreatePost(int idUser, JPanel JPrincipal) {
         initComponents();
+        
+        this.idUser = idUser;
+        this.JPrincipal = JPrincipal;
         
         txtDesc.setLineWrap(true);// Habilita a quebra de linha automática
         txtDesc.setWrapStyleWord(true);// Faz a quebra entre palavras
         txtDesc.setCaretPosition(0);
-        
-        this.setName("0");
+        this.ShowPost();
     }
 
+    public void ShowPost(){
+        GerenciadorSocial gerenciar = new GerenciadorSocial();
+        Usuario user = gerenciar.getUserDao(idUser);
+        this.txtPerfil.setText(user.getNome());
+        this.txtData.setText(gerenciar.getDataHoje());
+        this.setName(Integer.toString(user.getId()));
+        
+        this.repaint();
+        this.revalidate();
+    }
+    
     public JPanel getJpFoto() {
         return JpFoto;
     }
@@ -169,6 +186,9 @@ public class CreatePost extends javax.swing.JPanel {
     private void btnPublicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPublicarActionPerformed
         GerenciadorSocial gerenciar = new GerenciadorSocial();
         gerenciar.createPost(this);
+        JPrincipal.removeAll();
+        JPrincipal.repaint();
+        JPrincipal.revalidate();
     }//GEN-LAST:event_btnPublicarActionPerformed
 
 
