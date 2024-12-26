@@ -1,5 +1,7 @@
-
 package Telas;
+
+
+
 
 import Classes.GerenciadorSocial;
 import javax.swing.BoxLayout;
@@ -16,13 +18,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
         this.idUser = idUser;
         
         JPrincipal.setLayout(new BoxLayout(JPrincipal, BoxLayout.Y_AXIS));  // Organiza os painéis em coluna
-        
         ScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         ScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         ScrollPane.getVerticalScrollBar().setUnitIncrement(20); // aumenta a velocidade para 20 pixels
         
+        JAmigos.setLayout(new BoxLayout(JAmigos, BoxLayout.X_AXIS)); // Layout horizontal
+        ScrolAmigos.setVerticalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        ScrolAmigos.setHorizontalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        ScrolAmigos.getVerticalScrollBar().setUnitIncrement(20); // aumenta a velocidade para 20 pixels*/
+        
         this.setLocationRelativeTo(null);
-         
+        //this.amigos();
     }
 
     @SuppressWarnings("unchecked")
@@ -37,6 +43,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         btnAmigos = new javax.swing.JButton();
         ScrollPane = new javax.swing.JScrollPane();
         JPrincipal = new javax.swing.JPanel();
+        ScrolAmigos = new javax.swing.JScrollPane();
+        JAmigos = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,7 +92,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jplMenuLayout.setVerticalGroup(
             jplMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jplMenuLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(105, Short.MAX_VALUE)
                 .addComponent(btnFeed)
                 .addGap(68, 68, 68)
                 .addComponent(btnPerfil)
@@ -96,6 +104,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(btnAmigos)
                 .addGap(178, 178, 178))
         );
+
+        JPrincipal.setBackground(new java.awt.Color(51, 255, 51));
 
         javax.swing.GroupLayout JPrincipalLayout = new javax.swing.GroupLayout(JPrincipal);
         JPrincipal.setLayout(JPrincipalLayout);
@@ -110,6 +120,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         ScrollPane.setViewportView(JPrincipal);
 
+        JAmigos.setBackground(new java.awt.Color(204, 255, 0));
+
+        javax.swing.GroupLayout JAmigosLayout = new javax.swing.GroupLayout(JAmigos);
+        JAmigos.setLayout(JAmigosLayout);
+        JAmigosLayout.setHorizontalGroup(
+            JAmigosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 746, Short.MAX_VALUE)
+        );
+        JAmigosLayout.setVerticalGroup(
+            JAmigosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 171, Short.MAX_VALUE)
+        );
+
+        ScrolAmigos.setViewportView(JAmigos);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -117,12 +142,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jplMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
+                    .addComponent(ScrolAmigos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jplMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(ScrollPane)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(ScrolAmigos, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -159,7 +189,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     
     public void amigos(){
         GerenciadorSocial gerenciar = new GerenciadorSocial();
-        //gerenciar.sugestaoAmigos(this.);
+        gerenciar.sugestaoAmigos(JAmigos);
     }
     
     public static void main(String args[]) {
@@ -171,7 +201,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel JAmigos;
     private javax.swing.JPanel JPrincipal;
+    private javax.swing.JScrollPane ScrolAmigos;
     private javax.swing.JScrollPane ScrollPane;
     private javax.swing.JButton btnAmigos;
     private javax.swing.JButton btnEditePerfil;
