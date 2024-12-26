@@ -3,6 +3,7 @@ package Classes;
 
 import Telas.CreatePost;
 import Telas.SusPerfil;
+import Telas.TelaPrincipal;
 import Telas.ViewPost;
 import Telas.editPerfil;
 import java.time.LocalDate;

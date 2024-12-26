@@ -157,6 +157,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         return idUser;
     }
     
+    public void amigos(){
+        GerenciadorSocial gerenciar = new GerenciadorSocial();
+        //gerenciar.sugestaoAmigos(this.);
+    }
+    
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
