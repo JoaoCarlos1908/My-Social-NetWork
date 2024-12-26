@@ -70,7 +70,7 @@ public class SocialDAO {
             // Obter a conexão (substitua pelo seu método de conexão)
             con = ConnectionFactory.getConnection();
             // Query SQL para atualizar a tarefa existente
-            String sql = "UPDATE uer SET usuario = ?, senha = ? WHERE id = ?";
+            String sql = "UPDATE user SET usuario = ?, senha = ?, nome = ?, idade = ?, tell = ?, bio = ?  WHERE id = ?";
             
             if (estado) {
                 stmt = con.prepareStatement(sql);
@@ -78,11 +78,15 @@ public class SocialDAO {
                 //Preenchendo os parâmetros da query
                 stmt.setString(1, user.getUser());
                 stmt.setString(2, user.getSenha());
-                stmt.setInt(3, user.getId()); // ID da tarefa para atualização
+                stmt.setString(3, user.getNome());
+                stmt.setInt(4, user.getIdade());
+                stmt.setString(5, user.getFone());
+                stmt.setString(6, user.getBio());
+                stmt.setInt(7, user.getId()); // ID da tarefa para atualização
 
                 // Executa a query
                 stmt.executeUpdate();
-            
+                JOptionPane.showMessageDialog(null, "Dados atualizados!");
             } else {
                 // Chama o método responsável por adicionar uma nova tarefa
                 this.createUser(user);
@@ -378,6 +382,32 @@ public class SocialDAO {
             // Fecha a conexão
             ConnectionFactory.closerConnection(con, stmt);
         }
+    }
+
+    public ArrayList<Usuario> listaAmigos() {
+        ArrayList<Usuario> users = new ArrayList<>();
+        String sql = "SELECT * FROM user";
+
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) { // Itera sobre todos os resultados
+                Usuario user = new Usuario(); // Cria um novo objeto para cada post
+                
+                user.setId(rs.getInt("id"));
+                user.setNome(rs.getString("nome"));
+                //user.setImagem(rs.getImagem("imagem"));
+
+                users.add(user); // Adiciona o post à lista
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar usuarios: " + ex.getMessage());
+        } finally {
+            ConnectionFactory.closerConnection(con, stmt, rs);
+        }
+        return users;
     }
 
 }

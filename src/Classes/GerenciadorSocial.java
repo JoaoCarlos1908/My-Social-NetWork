@@ -2,8 +2,9 @@
 package Classes;
 
 import Telas.CreatePost;
-import Telas.TelaPrincipal;
+import Telas.SusPerfil;
 import Telas.ViewPost;
+import Telas.editPerfil;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class GerenciadorSocial {
         
         for (int i = posts.size() - 1; i >= 0; i--) {
             ViewPost post = posts.get(i);
+            
             JPrincipal.add(post);
         }
         JPrincipal.revalidate();
@@ -79,6 +81,31 @@ public class GerenciadorSocial {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Erro ao curtir/descurtir o post: " + ex.getMessage());
         }
-}
+    }
 
+    public void updateUser(editPerfil edit, int idUser){
+        Usuario user = this.getUserDao(idUser);
+        user.setNome(edit.getNome());
+        user.setIdade(Integer.parseInt(edit.getIdade()));
+        user.setFone(edit.getFone());
+        user.setBio(edit.getBio());
+        
+        SocialDAO dao = new SocialDAO();
+        dao.updateUser(user, true);
+    }
+    
+    public void sugestaoAmigos(JPanel JsAmigos){
+        SocialDAO dao = new SocialDAO();
+        ArrayList<Usuario> amigos = new ArrayList<>();
+        amigos = dao.listaAmigos();
+        
+        for(Usuario user: amigos){
+            SusPerfil viewAmigos = new SusPerfil();
+            viewAmigos.setName(Integer.toString(user.getId()));
+            viewAmigos.setNome(user.getNome());
+            //viewAmigos.setImagem(user.getImagem());
+            
+            JsAmigos.add(viewAmigos);
+        }
+    }
 }
