@@ -69,6 +69,7 @@ public class GerenciadorLogin {
                 user.setTell(dados.getTell());
                 user.setUser(dados.getUser());
                 user.setSenha(dados.getPass());
+                user.setSeguidores(0);
                 
                 dao.createUser(user);
                 

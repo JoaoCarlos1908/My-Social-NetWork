@@ -1,5 +1,6 @@
 package Classes;
 
+import Telas.ViewPerfil;
 import Telas.ViewPost;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,13 +19,14 @@ public class SocialDAO {
     public void createUser(Usuario user){//create
         try {
             con = ConnectionFactory.getConnection();
-            stmt = con.prepareStatement("INSERT INTO user(usuario, senha, nome, idade, tell)VALUES(?,?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO user(usuario, senha, nome, idade, tell, seguidores)VALUES(?,?,?,?,?,?)");
         
             stmt.setString(1, user.getUser());
             stmt.setString(2, user.getSenha());
             stmt.setString(3, user.getNome());
             stmt.setInt(4, user.getIdade());
             stmt.setString(5, user.getTell());
+            stmt.setInt(6, user.getSeguidores());
             
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
@@ -409,5 +411,115 @@ public class SocialDAO {
         }
         return users;
     }
+
+        public boolean existsSeguidor(int idSus, int idUser) {
+        boolean exists = false;
+        String sql = "SELECT 1 FROM seguidores WHERE idPerfil = ? AND idSeguidor = ?";
+
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idSus);
+            stmt.setInt(2, idUser);
+
+            rs = stmt.executeQuery();
+
+            // Verifica se o ResultSet retornou algum resultado
+            if (rs.next()) {
+                exists = true;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao verificar like: " + ex.getMessage());
+        } finally {
+            ConnectionFactory.closerConnection(con, stmt, rs);
+        }
+        return exists;
+    }
+        
+        public void removeSeguidor(int idSus, int idUser) {
+            String sql = "DELETE FROM seguidores WHERE idPerfil = ? AND idSeguidor = ?";
+
+            try {
+                // Estabelece a conexão com o banco
+                con = ConnectionFactory.getConnection();
+                stmt = con.prepareStatement(sql);
+
+                // Define os parâmetros
+                stmt.setInt(1, idSus);
+                stmt.setInt(2, idUser);
+
+                // Executa o comando DELETE
+                int rowsAffected = stmt.executeUpdate();
+        
+                if (rowsAffected > 0) {
+                    System.out.println("Deixou de seguir");
+                } else {
+                    System.out.println("Você não é seguidor");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao deixar de seguir: " + ex.getMessage());
+            } finally {
+                // Fecha a conexão
+                ConnectionFactory.closerConnection(con, stmt);
+            }
+        }
+    
+    public void addSeguidor(int idSus, int idUser) {
+        String sql = "INSERT INTO seguidores (idPerfil, idSeguidor) VALUES (?, ?)";
+
+        try {
+            // Estabelece a conexão com o banco
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+
+            // Define os parâmetros
+            stmt.setInt(1, idSus);
+            stmt.setInt(2, idUser);
+
+            // Executa o comando INSERT
+            stmt.executeUpdate();
+            System.out.println("Seguindo perfil!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao começar a seguir: " + ex.getMessage());
+        } finally {
+            // Fecha a conexão
+            ConnectionFactory.closerConnection(con, stmt);
+        }
+    }
+    
+   public void updateUserSeguidores(ViewPerfil view) {
+    if (view.getIdUser() <= 0 || view.getSeguidores() < 0) {
+        JOptionPane.showMessageDialog(null, "Dados inválidos para atualizar seguidores.");
+        return;
+    }
+
+    Usuario user = new Usuario();
+    user.setId(view.getIdSus());
+    user.setSeguidores(view.getSeguidores());
+
+    String sql = "UPDATE user SET `seguidores` = ? WHERE id = ?";
+
+    try {
+        con = ConnectionFactory.getConnection();
+        stmt = con.prepareStatement(sql);
+
+        // Define os novos valores para os campos a serem atualizados
+        stmt.setInt(1, user.getSeguidores());
+        stmt.setInt(2, user.getId());
+
+        // Executa a atualização
+        int rowsUpdated = stmt.executeUpdate();
+        if (rowsUpdated > 0) {
+            System.out.println("Seguidores atualizados com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum perfil encontrado com o ID fornecido: " + user.getId());
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Erro ao atualizar seguidores: " + ex.getMessage());
+        ex.printStackTrace(); // Remova em produção
+    } finally {
+        ConnectionFactory.closerConnection(con, stmt);
+    }
+}
 
 }

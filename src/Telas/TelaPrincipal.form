@@ -37,7 +37,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jplMenu" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
-              <Component id="ScrolAmigos" min="-2" pref="160" max="-2" attributes="0"/>
+              <Component id="ScrolAmigos" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="ScrollPane" pref="0" max="32767" attributes="0"/>
           </Group>
@@ -81,7 +81,7 @@
                   <Component id="btnEditePerfil" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                   <Component id="btnAmigos" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="178" max="-2" attributes="0"/>
+                  <EmptySpace pref="178" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -115,6 +115,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Edit Perfil"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditePerfilActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAmigos">
           <Properties>
@@ -158,6 +161,9 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="ff" red="cc" type="rgb"/>
             </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[746, 170]"/>
+            </Property>
           </Properties>
 
           <Layout>
@@ -168,7 +174,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="171" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="170" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

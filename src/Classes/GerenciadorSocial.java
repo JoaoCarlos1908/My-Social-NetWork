@@ -3,9 +3,10 @@ package Classes;
 
 import Telas.CreatePost;
 import Telas.SusPerfil;
-import Telas.TelaPrincipal;
+import Telas.ViewPerfil;
 import Telas.ViewPost;
 import Telas.editPerfil;
+import java.awt.Dimension;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -95,18 +96,60 @@ public class GerenciadorSocial {
         dao.updateUser(user, true);
     }
     
-    public void sugestaoAmigos(JPanel JsAmigos){
+    public void sugestaoAmigos(JPanel JsAmigos, JPanel JPrincipal){
         SocialDAO dao = new SocialDAO();
         ArrayList<Usuario> amigos = new ArrayList<>();
         amigos = dao.listaAmigos();
+        int totalWidth = 0;
         
         for(Usuario user: amigos){
-            SusPerfil viewAmigos = new SusPerfil();
+            SusPerfil viewAmigos = new SusPerfil(JPrincipal);
             viewAmigos.setName(Integer.toString(user.getId()));
-            viewAmigos.setNome(user.getNome());
+            
+            String texto = user.getNome();
+            if (texto.length() >= 9) {
+                texto = texto.substring(0, 9) + "..";
+            }
+            
+            viewAmigos.setNome(texto);
             //viewAmigos.setImagem(user.getImagem());
             
             JsAmigos.add(viewAmigos);
+            totalWidth++;
+            
+        }
+        
+        JsAmigos.setPreferredSize(new Dimension(totalWidth * 130 + 50, 170));
+        JsAmigos.revalidate();
+        JsAmigos.repaint();
+    }
+    
+    public void Seguidores(ViewPerfil perfilSus, int idUser) {
+        if (perfilSus == null || idUser <= 0 || perfilSus.getIdSus() <= 0) {
+            throw new IllegalArgumentException("Dados inválidos fornecidos.");
+        }
+
+        int idSus = perfilSus.getIdSus(); // Obtém o ID do perfil
+        SocialDAO dao = new SocialDAO();
+
+        try {
+            boolean isSeguindo = dao.existsSeguidor(idSus, idUser);
+
+            // Atualiza o contador de seguidores e executa o método apropriado
+            int seguidores = perfilSus.getSeguidores();
+            if (isSeguindo) {
+                perfilSus.setSeguidores(--seguidores);
+                dao.removeSeguidor(idSus, idUser);
+            } else {
+                perfilSus.setSeguidores(++seguidores);
+                dao.addSeguidor(idSus, idUser);
+            }
+
+            // Atualiza o banco com o novo número de seguidores
+            dao.updateUserSeguidores(perfilSus);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao seguir/deixar de seguir o perfil: " + ex.getMessage());
         }
     }
 }

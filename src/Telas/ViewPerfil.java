@@ -3,34 +3,89 @@ package Telas;
 
 import Classes.GerenciadorSocial;
 import Classes.Usuario;
+import javax.swing.JLabel;
 
 
 public class ViewPerfil extends javax.swing.JPanel {
 
     int idUser;
+    int idSus;
+    Boolean x;
     
     public ViewPerfil(int idUser) {
         initComponents();
         
         this.idUser = idUser;
-        this.ShowView();
+        this.ShowView(idUser);
         txtBio.setLineWrap(true);// Habilita a quebra de linha automática
         txtBio.setWrapStyleWord(true);// Faz a quebra entre palavras
         txtBio.setCaretPosition(0);
         txtBio.setEditable(false);
+        x = true;
+    }
+    public ViewPerfil(int idUser, int idSus) {
+        initComponents();
+        
+        this.idUser = idUser;
+        this.idSus = idSus;
+        this.ShowView(idSus);
+        txtBio.setLineWrap(true);// Habilita a quebra de linha automática
+        txtBio.setWrapStyleWord(true);// Faz a quebra entre palavras
+        txtBio.setCaretPosition(0);
+        txtBio.setEditable(false);
+        x = false;
     }
 
-    public void ShowView(){
+    public void ShowView(int id){
         GerenciadorSocial gerenciar = new GerenciadorSocial();
-        Usuario user = gerenciar.getUserDao(idUser);
+        Usuario user = gerenciar.getUserDao(id);
+
         this.txtNome.setText(user.getNome());
         this.txtFone.setText("Fone: " + user.getFone());
         this.txtIdade.setText("Idade: " + Integer.toString(user.getIdade()));
         this.txtBio.setText(user.getBio());
-        this.txtSeguidores.setText("Seguidores: " + Integer.toString(user.getSeguidores()));
+        this.txtSeguidores.setText(Integer.toString(user.getSeguidores()));
         
         this.repaint();
         this.revalidate();
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public int getIdSus() {
+        return idSus;
+    }
+
+    public void setIdSus(int idSus) {
+        this.idSus = idSus;
+    }
+
+    public int getSeguidores() {
+        return Integer.parseInt(this.txtSeguidores.getText());
+    }
+
+    public void setSeguidores(int Seguidores) {
+        this.txtSeguidores.setText(Integer.toString(Seguidores));
+    }
+    
+    public void btnSeguirVisibleTrue(){
+        this.btnSeguir.setVisible(true);
+    }
+    public void btnSeguirVisibleFalse(){
+        this.btnSeguir.setVisible(false);
+    }
+    
+    public void btnNoSeguirVisibleTrue(){
+        this.btnDeixarDeSeguir.setVisible(true);
+    }
+    public void btnNoSeguirVisibleFalse(){
+        this.btnDeixarDeSeguir.setVisible(false);
     }
     
     @SuppressWarnings("unchecked")
@@ -47,6 +102,7 @@ public class ViewPerfil extends javax.swing.JPanel {
         txtBio = new javax.swing.JTextArea();
         btnSeguir = new javax.swing.JButton();
         btnDeixarDeSeguir = new javax.swing.JButton();
+        txtSeguidores1 = new javax.swing.JLabel();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -86,7 +142,7 @@ public class ViewPerfil extends javax.swing.JPanel {
         txtIdade.setText("Idade");
 
         txtSeguidores.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        txtSeguidores.setText("Seguidores");
+        txtSeguidores.setText("0");
 
         txtBio.setColumns(20);
         txtBio.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
@@ -110,6 +166,9 @@ public class ViewPerfil extends javax.swing.JPanel {
             }
         });
 
+        txtSeguidores1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        txtSeguidores1.setText("Seguidores:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,14 +177,17 @@ public class ViewPerfil extends javax.swing.JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtSeguidores)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSeguir, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)
                         .addComponent(btnDeixarDeSeguir))
                     .addComponent(txtFone)
                     .addComponent(txtNome)
-                    .addComponent(txtIdade))
+                    .addComponent(txtIdade)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtSeguidores1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtSeguidores)))
                 .addGap(107, 126, Short.MAX_VALUE))
             .addComponent(jScrollPane1)
         );
@@ -140,9 +202,11 @@ public class ViewPerfil extends javax.swing.JPanel {
                         .addComponent(txtIdade)
                         .addGap(18, 18, 18)
                         .addComponent(txtFone)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtSeguidores)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtSeguidores)
+                            .addComponent(txtSeguidores1))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnDeixarDeSeguir)
                             .addComponent(btnSeguir)))
@@ -154,7 +218,12 @@ public class ViewPerfil extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSeguirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeguirActionPerformed
-        // TODO add your handling code here:
+       GerenciadorSocial gerenciar = new GerenciadorSocial();
+        
+        gerenciar.Seguidores(this, idUser);
+        
+        this.repaint();
+        this.revalidate();
     }//GEN-LAST:event_btnSeguirActionPerformed
 
     private void btnDeixarDeSeguirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeixarDeSeguirActionPerformed
@@ -177,5 +246,6 @@ public class ViewPerfil extends javax.swing.JPanel {
     private javax.swing.JLabel txtIdade;
     private javax.swing.JLabel txtNome;
     private javax.swing.JLabel txtSeguidores;
+    private javax.swing.JLabel txtSeguidores1;
     // End of variables declaration//GEN-END:variables
 }
